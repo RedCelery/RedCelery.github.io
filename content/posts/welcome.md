@@ -3,29 +3,27 @@ title = "站点搭好了"
 date = 2026-03-28
 draft = false
 tags = ["随记"]
-summary = "用 Hugo + PaperMod 搭的个人博客，之后科研和项目笔记都会写在这里。"
+description = "用 Hugo + hugo-paper 主题搭的博客，记录科研和项目想法。"
 +++
 
-这是第一篇文章。你可以删掉或改掉它。
+这是第一篇文章，你可以删掉或改掉。
+
+主题文档见：[nanxiaobei/hugo-paper](https://github.com/nanxiaobei/hugo-paper)。
 
 ## 本地预览
-
-在仓库根目录执行：
 
 ```bash
 hugo server --buildDrafts
 ```
 
-浏览器打开终端里提示的地址（一般是 `http://localhost:1313/`）。
+浏览器访问终端里提示的地址（多为 `http://localhost:1313/`）。
 
-## 写新文章
+## 新文章
 
 ```bash
-hugo new content posts/你的文章名.md
+hugo new content posts/文章名.md
 ```
 
-把正文写在 `+++` 下面的 Markdown 里；需要草稿时把 front matter 里的 `draft` 设为 `true`，本地加 `--buildDrafts` 才能看到。
+## 部署
 
-## 上线
-
-把代码推到 GitHub 的 `main` 分支后，在仓库 **Settings → Pages** 里把 **Source** 选成 **GitHub Actions**。首次推送后等几分钟，访问 [https://redcelery.github.io/](https://redcelery.github.io/) 即可。
+推送 `main` 后，CI 会构建并推到 **`gh-pages`**。请在仓库 **Settings → Pages** 中选择 **Deploy from a branch**，分支 **gh-pages**，目录 **/ (root)**。
