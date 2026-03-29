@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on KeepIt</title><link>https://redcelery.github.io/post/</link><description>Recent content in Posts on KeepIt</description><generator>Hugo</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 29 Mar 2026 16:36:52 +0800</lastBuildDate><atom:link href="https://redcelery.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>第一篇：站点测试</title><link>https://redcelery.github.io/my-first-post/</link><pubDate>Sun, 29 Mar 2026 12:41:11 +0800</pubDate><guid>https://redcelery.github.io/my-first-post/</guid><description>&lt;p&gt;这是博客里的&lt;strong&gt;第一篇正式文章&lt;/strong&gt;，主要做联调测试：本地 &lt;code&gt;hugo server&lt;/code&gt;、之后推上 GitHub Pages 时，版式与链接是否都正常。&lt;/p&gt;
+&lt;h2 id="这一段测标题和列表"&gt;这一段测标题和列表&lt;/h2&gt;
+&lt;p&gt;写科研或项目笔记时，常用结构可以是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;背景：要解决什么问题&lt;/li&gt;
+&lt;li&gt;记录：读了什么、试了哪条思路&lt;/li&gt;
+&lt;li&gt;结论：可行 / 不可行，下一步做什么&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="这一段测代码块"&gt;这一段测代码块&lt;/h2&gt;
+&lt;p&gt;例如本地预览命令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; redcelery
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo server --buildDrafts
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;浏览器访问终端里提示的地址（一般是 &lt;code&gt;http://localhost:1313/&lt;/code&gt;）。&lt;/p&gt;
+&lt;h2 id="这一段测引用与链接"&gt;这一段测引用与链接&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;先把流水线跑通，再慢慢换主题、加分类和数学公式也不迟。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;主题与配置仍在迭代中，若你之后改成纯中文站，只要在 &lt;code&gt;hugo.toml&lt;/code&gt; 里把默认语言切到 &lt;code&gt;zh-cn&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;如果你能看到这段分隔线以上的排版正常，说明第一篇博文测试通过。&lt;/em&gt;&lt;/p&gt;</description></item></channel></rss>
