@@ -33,10 +33,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 0
 
       - name: Build with Hugo
+        working-directory: redcelery
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
@@ -46,12 +46,11 @@ jobs:
             --minify \
             --baseURL "https://redcelery.github.io/"
           test -f public/index.html
-          ls -la public | head -20
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./redcelery/public
           publish_branch: gh-pages
           force_orphan: true
