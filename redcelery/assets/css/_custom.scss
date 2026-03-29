@@ -1,0 +1,118 @@
+// Categories taxonomy: single-column accordion (see layouts/taxonomy/terms.html)
+.categories-card.categories-card--accordion {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+
+  .category-accordion {
+    margin-top: 0.75rem;
+    border: 1px solid $global-border-color;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: $global-background-color;
+
+    [theme="dark"] & {
+      border-color: $global-border-color-dark;
+      background-color: $global-background-color-dark;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .category-accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: bold;
+    list-style: none;
+    user-select: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      display: none;
+    }
+
+    &:hover {
+      background-color: rgba($global-link-hover-color, 0.06);
+
+      [theme="dark"] & {
+        background-color: rgba(#fff, 0.04);
+      }
+    }
+  }
+
+  .category-accordion__title {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+    color: $global-font-color;
+
+    [theme="dark"] & {
+      color: $global-font-color-dark;
+    }
+
+    .category-count {
+      font-weight: 600;
+      color: $global-font-secondary-color;
+
+      [theme="dark"] & {
+        color: $global-font-secondary-color-dark;
+      }
+    }
+  }
+
+  .category-accordion__caret {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: $global-font-secondary-color;
+    transition: transform 0.2s ease;
+
+    [theme="dark"] & {
+      color: $global-font-secondary-color-dark;
+    }
+  }
+
+  .category-accordion[open] .category-accordion__caret {
+    transform: rotate(180deg);
+  }
+
+  .category-accordion__panel {
+    padding: 0.25rem 0 0.75rem;
+    border-top: 1px solid $global-border-color;
+
+    [theme="dark"] & {
+      border-top-color: $global-border-color-dark;
+    }
+
+    .archive-item {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .category-accordion__empty {
+      margin: 0.5rem 1rem 0.25rem;
+      font-size: 0.875rem;
+      color: $global-font-secondary-color;
+
+      [theme="dark"] & {
+        color: $global-font-secondary-color-dark;
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{{- define "title" -}}
+    {{- .Params.Title | default (T .Data.Plural) | default .Data.Plural | dict "Some" | T "allSome" }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    {{- $taxonomies := .Data.Plural -}}
+    {{- $terms := .Data.Terms.ByCount -}}
+    {{- $type := .Type -}}
+
+    <div class="page archive">
+        {{- /* Title */ -}}
+        <h2 class="single-title animate__animated animate__pulse animate__faster">
+            {{- .Params.Title | default (T $taxonomies) | default $taxonomies | dict "Some" | T "allSome" -}}
+        </h2>
+
+        {{- /* Categories Page — fixed list + counts (including 0) */ -}}
+        {{- if eq $taxonomies "categories" -}}
+            {{- $cats := site.Params.categoryList | default slice -}}
+            {{- $tax := site.Taxonomies.categories -}}
+            <div class="categories-card categories-card--accordion">
+                {{- range $cats -}}
+                    {{- $name := . -}}
+                    {{- $slug := $name | urlize -}}
+                    {{- $w := index $tax $slug -}}
+                    {{- if not $w -}}{{- $w = index $tax ($name | lower) -}}{{- end -}}
+                    {{- if not $w -}}{{- $w = index $tax $name -}}{{- end -}}
+                    {{- $count := 0 -}}
+                    {{- $pages := slice -}}
+                    {{- with $w -}}
+                        {{- $count = .Count -}}
+                        {{- $pages = .Pages -}}
+                    {{- end -}}
+                    <details class="category-accordion">
+                        <summary class="category-accordion__summary">
+                            <span class="category-accordion__title">
+                                <i class="far fa-folder fa-fw" aria-hidden="true"></i>&nbsp;{{ $name }} <span class="category-count">({{ $count }})</span>
+                            </span>
+                            <i class="fas fa-chevron-down category-accordion__caret" aria-hidden="true"></i>
+                        </summary>
+                        <div class="category-accordion__panel">
+                            {{- if eq (len $pages) 0 -}}
+                                <p class="category-accordion__empty">{{- if eq site.Language.Lang "zh-cn" -}}暂无文章。{{- else -}}No posts yet.{{- end -}}</p>
+                            {{- else -}}
+                                {{- range $pages -}}
+                                    <article class="archive-item">
+                                        <a href="{{ .RelPermalink }}" class="archive-item-link">
+                                            {{- .Title -}}
+                                        </a>
+                                    </article>
+                                {{- end -}}
+                            {{- end -}}
+                        </div>
+                    </details>
+                {{- end -}}
+            </div>
+
+        {{- /* Tag Cloud Page */ -}}
+        {{- else if eq $taxonomies "tags" -}}
+            <div class="tag-cloud-tags">
+                {{- range $.Site.Taxonomies.tags.ByCount -}}
+                    <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }} <sup>{{ .Count }}</sup></a>
+                {{- end -}}
+            </div>
+        {{- end -}}
+    </div>
+{{- end -}}

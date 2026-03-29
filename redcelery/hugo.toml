@@ -7,7 +7,7 @@ ignoreFiles = ["theme-documentation-built-in-shortcodes"]
 theme = "keepit"
 
 # website title
-title = "KeepIt"
+title = "TheRedCelery"
 
 # determines default content language ["en", "zh-cn", "fr", "pl", ...]
 defaultContentLanguage = "en"
@@ -48,7 +48,7 @@ enableEmoji = true
     # you can add extra information after the name (HTML format is supported), such as icons
     post = ""
     name = "Posts"
-    url = "/post/"
+    url = "/posts/"
     # title will be shown when you hover on this menu link
     title = ""
   [[menu.main]]
@@ -72,18 +72,20 @@ enableEmoji = true
   # site default theme ["auto", "light", "dark"]
   defaultTheme = "auto"
   # public git repo url only then enableGitInfo is true
-  gitRepo = "https://github.com/Fastbyte01/KeepIt"
+  gitRepo = "https://github.com/RedCelery/RedCelery.github.io"
   # which hash function used for SRI, when empty, no SRI is used
   # ["sha256", "sha384", "sha512", "md5"]
   fingerprint = ""
   # date format
   dateFormat = "2006-01-02"
   # website title for Open Graph and Twitter Cards
-  title = "KeepIt"
+  title = "TheRedCelery"
   # website description for RSS, SEO, Open Graph and Twitter Cards
-  description = "Hugo theme - KeepIt"
+  description = "TheRedCelery — 笔记与项目记录"
   # website images for Open Graph and Twitter Cards
   images = ["/logo.png"]
+  # Categories page: always list these terms (with post count, including 0)
+  categoryList = ["Unreal", "MotionGeneration", "CharacterRendering", "GaussianSplatting", "NeuralRendering"]
 
   # Header config
   [params.header]
@@ -96,7 +98,7 @@ enableEmoji = true
       # URL of the LOGO
       logo = ""
       # title name
-      name = "KeepIt"
+      name = "TheRedCelery"
       # you can add extra information before the name (HTML format is supported), such as icons
       pre = "<i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i>"
       # you can add extra information after the name (HTML format is supported), such as icons
@@ -143,7 +145,7 @@ enableEmoji = true
   # App icon config
   [params.app]
     # optional site title override for the app when added to an iOS home screen or Android launcher
-    title = "KeepIt"
+    title = "TheRedCelery"
     # whether to omit favicon resource links
     noFavicon = false
     # modern SVG favicon to use in place of older style .png and .ico files
@@ -186,12 +188,12 @@ enableEmoji = true
       enable = true
       # Gravatar Email for preferred avatar in home page
       gravatarEmail = ""
-      # URL of avatar shown in home page
-      avatarURL = "/images/avatar.png"
+      # URL of avatar shown in home page（留空则不显示头像，避免缺图裂图）
+      avatarURL = ""
       # title shown in home page (HTML format is supported)
       title = ""
       # subtitle shown in home page
-      subtitle = "A Clean, Elegant but Advanced Hugo Theme"
+      subtitle = "TheRedCelery — notes & projects"
       # whether to use typeit animation for subtitle
       typeit = true
       # whether to show social links
@@ -202,7 +204,7 @@ enableEmoji = true
     [params.home.posts]
       enable = true
       # special amount of posts in each home posts page
-      paginate = 6
+      paginate = 1
   # Social config in home page
   [params.social]
     GitHub = ""
@@ -391,7 +393,7 @@ enableEmoji = true
         serverURLs = "https://leancloud.xxxxx.com"
         # emoji data file name, default is "google.yml"
         # ["apple.yml", "google.yml", "facebook.yml", "twitter.yml"]
-        # located in "themes/KeepIt/assets/data/emoji/" directory
+        # located in "themes/keepit/assets/data/emoji/" directory
         # you can store your own data files in the same path under your project:
         # "assets/data/emoji/"
         emoji = ""
@@ -498,7 +500,7 @@ enableEmoji = true
   [params.cdn]
     # CDN data file name, disabled by default
     # ["jsdelivr.yml"]
-    # located in "themes/KeepIt/assets/data/cdn/" directory
+    # located in "themes/keepit/assets/data/cdn/" directory
     # you can store your own data files in the same path under your project:
     # "assets/data/cdn/"
     data = "jsdelivr.yml"
@@ -545,8 +547,8 @@ enableEmoji = true
 
 # Permalinks config (https://gohugo.io/content-management/urls/#permalinks)
 [Permalinks]
-  # 与 content/post/ 区块名一致
-  post = ":contentbasename"
+  # 与 content/posts/ 一致（KeepIt 首页只列出 section posts）
+  posts = ":contentbasename"
 
 # Privacy config (https://gohugo.io/about/hugo-and-gdpr/)
 [privacy]
@@ -592,7 +594,7 @@ enableEmoji = true
         pre = ""
         post = ""
         name = "Posts"
-        url = "/post/"
+        url = "/posts/"
         title = ""
       [[languages.en.menu.main]]
         weight = 2
@@ -612,28 +614,12 @@ enableEmoji = true
         title = ""
       [[languages.en.menu.main]]
         weight = 4
-        identifier = "documentation"
-        pre = ""
-        post = ""
-        name = "Docs"
-        url = "/categories/documentation/"
-        title = ""
-      [[languages.en.menu.main]]
-        weight = 5
         identifier = "about"
         pre = ""
         post = ""
         name = "About"
         url = "/about/"
         title = ""
-      [[languages.en.menu.main]]
-        weight = 6
-        identifier = "github"
-        pre = "<i class='fab fa-github fa-fw' aria-hidden='true'></i>"
-        post = ""
-        name = ""
-        url = "https://github.com/Fastbyte01/KeepIt"
-        title = "GitHub"
     [languages.en.params]
       [languages.en.params.search]
         enable = true
@@ -650,27 +636,22 @@ enableEmoji = true
           searchKey = "b42948e51daaa93df92381c8e2ac0f93"
       [languages.en.params.home]
         rss = 10
+        [languages.en.params.home.posts]
+          enable = true
+          paginate = 1
         [languages.en.params.home.profile]
           enable = true
           gravatarEmail = ""
-          avatarURL = "/images/avatar.png"
+          avatarURL = ""
           title = ""
-          subtitle = "A Clean, Elegant but Advanced Hugo Theme"
+          subtitle = "TheRedCelery — notes & projects"
           typeit = true
           social = true
           disclaimer = ""
       [languages.en.params.social]
-        GitHub = "xxxx"
-        Twitter = "xxxx"
-        Instagram = "xxxx"
-        Facebook = "xxxx"
-        Telegram = "xxxx"
-        Youtubelegacy = "xxxx"
-        Email = "xxxx@xxxx.com"
-        RSS = true
-        [languages.en.params.social.Mastodon]
-          id = "@xxxx"
-          prefix = "https://mastodon.technology/"
+        GitHub = "RedCelery"
+        # 改成你常用的联系邮箱
+        Email = "RedCelery@users.noreply.github.com"
 
   [languages.zh-cn]
     weight = 2
@@ -685,7 +666,7 @@ enableEmoji = true
         pre = ""
         post = ""
         name = "所有文章"
-        url = "/post/"
+        url = "/posts/"
         title = ""
       [[languages.zh-cn.menu.main]]
         weight = 2
@@ -705,27 +686,12 @@ enableEmoji = true
         title = ""
       [[languages.zh-cn.menu.main]]
         weight = 4
-        identifier = "documentation"
-        pre = ""
-        name = "文档"
-        url = "/categories/documentation/"
-        title = ""
-      [[languages.zh-cn.menu.main]]
-        weight = 5
         identifier = "about"
         pre = ""
         post = ""
         name = "关于"
         url = "/about/"
         title = ""
-      [[languages.zh-cn.menu.main]]
-        weight = 6
-        identifier = "github"
-        pre = "<i class='fab fa-github fa-fw' aria-hidden='true'></i>"
-        post = ""
-        name = ""
-        url = "https://github.com/Fastbyte01/KeepIt"
-        title = "GitHub"
     [languages.zh-cn.params]
       [languages.zh-cn.params.search]
         enable = true
@@ -742,22 +708,18 @@ enableEmoji = true
           searchKey = "b42948e51daaa93df92381c8e2ac0f93"
       [languages.zh-cn.params.home]
         rss = 10
+        [languages.zh-cn.params.home.posts]
+          enable = true
+          paginate = 1
         [languages.zh-cn.params.home.profile]
           enable = true
           gravatarEmail = ""
-          avatarURL = "/images/avatar.png"
+          avatarURL = ""
           title = ""
-          subtitle = "一个简洁、优雅且高效的 Hugo 主题"
+          subtitle = "TheRedCelery — 笔记与项目"
           typeit = true
           social = true
           disclaimer = ""
       [languages.zh-cn.params.social]
-        GitHub = "xxxx"
-        Weibo = "xxxx"
-        Steam = "xxxx"
-        Zhihu = "xxxx"
-        Douban = "xxxx"
-        Devto = "xxxx"
-        Bilibili = "xxxx"
-        Email = "xxxx@xxxx.com"
-        RSS = true
+        GitHub = "RedCelery"
+        Email = "RedCelery@users.noreply.github.com"
