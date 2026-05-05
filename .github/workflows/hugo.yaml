@@ -47,10 +47,11 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
+          # 与 Search Console 的 https 资源一致；避免 configure-pages 的 base_url 在部分情况下生成 http，导致 sitemap <loc> 为 http 而 GSC 报 Couldn't fetch
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --baseURL "https://redcelery.github.io/"
           test -f public/index.html
           ls -la public | head -15
 

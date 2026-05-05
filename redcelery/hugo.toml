@@ -1,4 +1,6 @@
 baseURL = "https://redcelery.github.io/"
+# 与 baseURL 一致生成绝对链接（含 sitemap），避免站内出现 http/https 混用
+canonifyURLs = true
 
 # 忽略主题自带的演示文章（内含 Hugo 已移除的 gist / tweet 短代码）
 ignoreFiles = ["theme-documentation-built-in-shortcodes"]
