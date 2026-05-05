@@ -61,5 +61,4 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-{{/* Sitemap uses absURL from hugo.toml baseURL (https). Do not use {{- here: it strips the newline after Disallow above. */}}
-Sitemap: {{ "/sitemap.xml" | absURL }}
+Sitemap: https://redcelery.github.io/sitemap.xml

@@ -25,8 +25,8 @@ googleAnalytics = ""
 # copyright description used only for seo schema
 copyright = ""
 
-# whether to use robots.txt
-enableRobotsTXT = true
+# robots.txt：用 static/robots.txt 原样复制，避免 hugo --minify 把模板生成的 robots 压成一行（Disallow 与 Sitemap 粘在一起）
+enableRobotsTXT = false
 # whether to use git commit log
 enableGitInfo = true
 # whether to use emoji code
