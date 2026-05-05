@@ -1,6 +1,7 @@
 /**
- * KeepIt theme places #toc-auto to the right of the article; move it into the
- * left gutter (desktop only — below 960px the theme hides #toc-auto anyway).
+ * KeepIt theme places #toc-auto to the right (~100ms after DOMContentLoaded) and
+ * sets visibility:visible. Move it into the left gutter on desktop; run as soon
+ * as the theme touches #toc-auto to avoid a right-side flash.
  */
 (function () {
   var GAP = 20;
@@ -9,32 +10,59 @@
 
   function apply() {
     var toc = document.getElementById('toc-auto');
-    if (!toc || toc.style.visibility !== 'visible') return;
+    if (!toc) return;
+    if (toc.style.visibility !== 'visible' && getComputedStyle(toc).visibility !== 'visible') return;
+
     var page = document.querySelector('article.page.single');
     if (!page) return;
+
     var rect = page.getBoundingClientRect();
     var leftGutter = rect.left - GAP;
     var w = Math.min(MAX_W, Math.max(MIN_W, leftGutter - GAP));
-    if (w < 100) return;
+    if (w < 100) {
+      toc.classList.add('toc-auto--skip');
+      return;
+    }
+
+    toc.classList.remove('toc-auto--skip');
     toc.style.left = rect.left - w - GAP + 'px';
     toc.style.maxWidth = w + 'px';
     toc.style.width = w + 'px';
     toc.classList.add('toc-auto--left');
   }
 
-  function schedule() {
-    apply();
-    setTimeout(apply, 200);
-    setTimeout(apply, 500);
+  function observeToc(toc) {
+    if (!toc || toc.__tocLeftObserved) return;
+    toc.__tocLeftObserved = true;
+    var mo = new MutationObserver(function () {
+      apply();
+    });
+    mo.observe(toc, { attributes: true, attributeFilter: ['style'] });
   }
 
-  if (document.readyState === 'complete') {
-    schedule();
-  } else {
-    window.addEventListener('load', schedule);
+  function boot() {
+    var toc = document.getElementById('toc-auto');
+    observeToc(toc);
+    apply();
+
+    var n = 0;
+    function rafChain() {
+      apply();
+      if (++n < 48) requestAnimationFrame(rafChain);
+    }
+    requestAnimationFrame(rafChain);
   }
-  document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(apply, 250);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  window.addEventListener('load', function () {
+    apply();
+    setTimeout(apply, 50);
+    setTimeout(apply, 150);
   });
 
   var resizeT;

@@ -1,0 +1,70 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+    {{- $params := .Scratch.Get "params" -}}
+    {{- $about := .Params.about | default dict -}}
+    {{- $avatar := $about.avatar | default "/images/header-avatar.png?v=2" -}}
+    {{- $intro := $about.intro | default "" -}}
+    {{- $email := $about.email | default .Site.Params.author.email -}}
+    {{- $github := $about.github | default .Site.Params.social.GitHub -}}
+    <div class="page single special about-page">
+        <h1 class="single-title animate__animated animate__pulse animate__faster">
+            {{- .Title -}}
+        </h1>
+
+        <div class="about-layout">
+            <aside class="about-aside">
+                <div class="about-avatar-wrap">
+                    <img
+                        class="about-avatar"
+                        src="{{ $avatar | relURL }}"
+                        alt="{{ .Site.Title }}"
+                        width="240"
+                        height="240"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </div>
+
+                {{- if $intro -}}
+                    <div class="about-card about-card--intro">
+                        <div class="about-card__label">{{- if eq .Lang "zh-cn" }}简介{{- else }}Intro{{- end -}}</div>
+                        <div class="about-card__body">{{ $intro | markdownify }}</div>
+                    </div>
+                {{- end -}}
+
+                {{- if or $email $github -}}
+                    <div class="about-card about-card--contact">
+                        <div class="about-card__label">{{- if eq .Lang "zh-cn" }}联系{{- else }}Contact{{- end -}}</div>
+                        {{- if $email -}}
+                            <div class="about-card__row">
+                                <span class="about-card__k">
+                                    <i class="fas fa-envelope fa-fw about-card__icon" aria-hidden="true"></i>
+                                    Email
+                                </span>
+                                <a class="about-card__v" href="mailto:{{ $email }}">{{ $email }}</a>
+                            </div>
+                        {{- end -}}
+                        {{- if $github -}}
+                            <div class="about-card__row">
+                                <span class="about-card__k">
+                                    <i class="fab fa-github fa-fw about-card__icon" aria-hidden="true"></i>
+                                    GitHub
+                                </span>
+                                <a class="about-card__v" href="https://github.com/{{ $github }}" rel="noopener noreferrer" target="_blank">{{ $github }}</a>
+                            </div>
+                        {{- end -}}
+                    </div>
+                {{- end -}}
+            </aside>
+
+            <div class="about-body">
+                <div class="content" id="content">
+                    {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+                </div>
+            </div>
+        </div>
+
+        {{- partial "comment.html" . -}}
+    </div>
+{{- end -}}

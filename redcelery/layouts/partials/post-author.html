@@ -1,0 +1,13 @@
+{{- /* Uses same image as header logo when set (params.header.title.logo). */ -}}
+{{- $site := .Site -}}
+{{- $author := .author -}}
+{{- $authorLink := .authorLink -}}
+{{- $logo := $site.Params.header.title.logo -}}
+<a href="{{ $authorLink | safeURL }}" class="author" title="Author" rel="author">
+    {{- if $logo -}}
+        <img src="{{ $logo | relURL }}" alt="" class="post-author-avatar" width="22" height="22" loading="lazy" decoding="async" />
+    {{- else -}}
+        <i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>
+    {{- end -}}
+    {{- $author -}}
+</a>

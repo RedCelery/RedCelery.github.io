@@ -10,19 +10,21 @@ categories: ["Unreal", "GaussianSplatting"]
 images: ["/images/splatshot/cover-scene-overview.png"]
 ---
 
-SplatShot is an Unreal Editor utility that places many cameras, renders frames through Movie Render Queue at the quality settings you choose, and writes camera metadata in a COLMAP-compatible text layout so common trainers (e.g. PostShot) can ingest images plus parameters without extra glue code. This document is a working note; engine and plugin details may drift, and we welcome fixes from anyone walking the same path.
+SplatShot is an Unreal Editor capture utility with a straightforward goal: place many cameras in a level, render multi-view frames through Movie Render Queue, and export camera parameters and sparse sidecar data in a layout common to 3DGS training stacks (often COLMAP-oriented text) so tools like PostShot can ingest images and metadata without one-off glue code.
+
+This guide is practical: it does not rehearse the math or terminology for its own sake, but explains the workflow—why, how, step-by-step notes, and common pitfalls. If your engine build or plugin revision differs from what we describe, feedback is welcome so we can keep the path accurate.
 
 <!--more-->
 
 ## Motivation: 3DGS, Unreal, and what this tool is for
 
-3D Gaussian Splatting (3DGS) has attracted a lot of attention lately: it represents objects or scenes in a form that is efficient to draw while preserving rich appearance. Whether or not it becomes a dominant runtime format, it is a serious new option in the appearance-representation toolbox, and the ecosystem around it is still moving quickly. We do not derive the method here; we only explain why we built a capture path inside Unreal.
+3D Gaussian Splatting (3DGS) has been in the spotlight lately—not only in papers but also as a new option for how we *represent* assets: in many settings you can pay a relatively light rendering cost (Gaussians as a unified way to carry appearance across materials) while keeping rich visual detail. It does not replace meshes and textures end-to-end, but it is already worth folding into parts of a production pipeline.
 
-In UE, teams already author assets with **per-part materials**, turn on **global illumination**, **shadows**, and often **path tracing** or high sampling when they want reference-quality stills or turntables. Supervision for 3DGS is, in practice, “many consistent views”; that is structurally similar to **baking** or precomputing appearance under controlled viewing conditions, except the baked product is a splat-style model instead of a lightmap alone. Turning a polished UE asset into a 3DGS asset can be a **practical and interesting** experiment—if that sounds slightly optimistic, that is fair; outcomes still depend on asset class, orbit design, and training choices.
+Inside Unreal you already push for high quality—per-part materials, global illumination, shadows, path tracing when you need reference-grade frames—and each of these strains performance. To stay within budget you often decimate high-resolution assets or otherwise simplify, which is its own chore. For 3DGS, a useful mental model is broader **appearance baking**: move complex shading into another renderable representation. That framing sounds almost naive, yet it still has real engineering upside and room to explore.
 
-A second use case is **synthetic data**: fully controlled scenes make it easier to generate multi-view sets with aligned labels for generative models or ablation studies. SplatShot automates the tedious part—camera layout, batch render, export—so you can focus on scene design and network code.
+A second use case is **synthetic data**: controlled scenes make large multi-view batches valuable for generative 3DGS work or downstream training. SplatShot strings “place cameras → render → export” into one repeatable path and cuts repetitive manual work.
 
-A modest engineering footnote: when you render inside Unreal, camera extrinsics and intrinsics come from the same source as the pixels, so you do not need structure-from-motion just to recover poses for those frames. We emit COLMAP-like text mainly because many training stacks already expect that layout, not to argue against photogrammetry in general—real captures and engine captures simply suit different goals.
+One more engineering convenience: when you capture in-engine, camera parameters and pixels share the same source, so you can export them directly and skip structure-from-motion *just to recover poses for those frames*. Intrinsics and extrinsics are ground truth; you can also sample on object surfaces to seed a sparse point cloud and help training converge more reliably.
 
 ## What the plugin does, in outline
 
@@ -80,8 +82,6 @@ Add your skeletal mesh or static mesh to Target Actors, then choose which geomet
 
 Here the mannequin is the capture target. Camera Array Shape is still unset in the dropdown; the next action is to pick one of the template meshes so the plugin knows where vertices lie in space. The viewport already shows a few camera gizmos from earlier trials—after you assign the shape and regenerate, the rig will fill in to match the template’s topology.
 
-## Step 3 — Choose a concrete template mesh
-
 The plugin’s sampling density is tied to the mesh you pick. Under CentricShot you first choose a primitive family, then a tessellation.
 
 ![Content Browser path ending in CentricShot with folders Capsule, Cube, Cylinder, Semi_Sphere, Sphere](/images/splatshot/ui-step-03-preview-single-track.png)
@@ -92,7 +92,7 @@ This view lists the five shape categories. Each opens to static meshes with diff
 
 Icospheres (ISO) distribute vertices more uniformly on the ball; UV spheres concentrate quads along meridians. Semi-spheres save views below the ground plane when your subject sits on a floor and you do not need bottom hemispheres. Pick based on coverage goals, not only triangle count.
 
-## Step 4 — Position the rig and generate cameras
+## Step 3 — Position the rig and generate cameras
 
 Assign the chosen static mesh to Camera Array Shape, adjust Mesh to World (translation lifts the dome off the floor, uniform scale grows radius), then spawn.
 
@@ -118,7 +118,7 @@ A capsule or tall ellipsoid pattern emphasizes head-to-toe sampling; compare aga
 
 Full spheres are appropriate for floating props or when bottom views are acceptable. Remember ground intersection: cameras inside the floor may need to be culled or replaced with a semi-sphere template.
 
-## Step 5 — Level Sequence authorship
+## Step 4 — Level Sequence authorship
 
 Generate LevelSequence builds `LS_CameraArray` (or your renamed default) with one cut per camera. The Sequencer timeline should show dense markers—one per viewpoint.
 
@@ -130,7 +130,7 @@ The Details panel on the CameraArray instance reports hundreds of elements (for 
 
 Scrubbing confirms framing before you commit hours of rendering. If any camera clips the ground or loses the subject, fix the Mesh to World transform or FOV here rather than after export.
 
-## Step 6 — Movie Render Pipeline preset
+## Step 5 — Movie Render Pipeline preset
 
 Before Send MRQ, assign a Movie Pipeline Primary Config compatible with multi-view export. The plugin ships presets under its MovieRenderSettings content; the screenshots reference `MPPC_MultiViews_Color`.
 
@@ -138,7 +138,7 @@ Before Send MRQ, assign a Movie Pipeline Primary Config compatible with multi-vi
 
 Match the config to your bit depth, tone mapping, and output format requirements. If your trainer expects linear colors, disable display encoding in the preset rather than baking sRGB unknowingly.
 
-## Step 7 — Queue, local render, progress
+## Step 6 — Queue, local render, progress
 
 Send MRQ pushes the job into Movie Render Queue with the copied pipeline settings and output path you set under Export or Render sections.
 
@@ -158,7 +158,7 @@ The progress window names the active camera actor index, shows warm-up completio
 
 After completion you should see a contiguous numbering scheme (zero-padded width matches your export dialog). Lighting and pose are constant across tiles; only the camera orbit changes, which is exactly the multi-view consistency structure-from-motion would try to recover—but here the metadata is authoritative.
 
-## Step 8 — COLMAP text export
+## Step 7 — COLMAP text export
 
 When frames exist on disk, Export Camera Info writes sparse text alongside them. A completion dialog in the reference project reported 513 image rows, 513 camera models, output under `.../bake/sparse/0`, and files `cameras.txt`, `images.txt`.
 
@@ -170,7 +170,7 @@ Keep filename padding, image resolution, and aspect consistent with the values e
 
 Sampling meshes for sparse points is independent of camera vertices: you can downsample or swap meshes to control `points3D` density. Align world scale with your training framework’s expectations (Unreal centimeters versus meters).
 
-## Step 9 — Inspect files on disk
+## Step 8 — Inspect files on disk
 
 Use Open Directory from the widget or browse manually. You should find rendered images, the COLMAP text set, and optional PLY point clouds depending on options.
 
@@ -194,14 +194,12 @@ Consult your tool’s notes on world versus camera matrices and quaternion order
 
 Pre-release builds focus on text-oriented COLMAP-style export paired with rendered images. Baseline engine: Unreal Engine 5.3 or newer; Movie Render Queue is the intended path when high rendering quality is required.
 
-## Roadmap (non-binding)
+## Roadmap
 
 Possible extensions we are exploring include spline-based camera paths, adaptive sampling on surfaces, and exporting additional buffers (e.g. normals, depth) for auxiliary losses. Nothing here should be read as a fixed product commitment.
 
 ## Support
 
 Email: [m2clarry@gmail.com](mailto:m2clarry@gmail.com)
-
-Documentation or portfolio link: please replace this sentence with your public URL when ready.
 
 If something in this guide disagrees with your engine version or downstream tool, we would appreciate hearing about it so the document can be tightened for everyone.

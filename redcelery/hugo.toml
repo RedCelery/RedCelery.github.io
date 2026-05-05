@@ -95,12 +95,12 @@ enableEmoji = true
     mobileMode = "auto"
     # Header title config
     [params.header.title]
-      # URL of the LOGO
-      logo = ""
+      # 顶栏头像：换图后把 ?v= 数字改大，避免浏览器一直用缓存的旧图
+      logo = "/images/header-avatar.png?v=2"
       # title name
       name = "TheRedCelery"
       # you can add extra information before the name (HTML format is supported), such as icons
-      pre = "<i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i>"
+      pre = ""
       # you can add extra information after the name (HTML format is supported), such as icons
       post = ""
       # whether to use typeit animation for title name
@@ -110,9 +110,9 @@ enableEmoji = true
   [params.footer]
     enable = true
     # Custom content (HTML format is supported)
-    custom = ""
-    # whether to show Hugo and theme info
-    hugo = true
+    custom = 'Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a>'
+    # whether to show Hugo and theme info（已用 custom 单独展示 Hugo，此处关闭主题/emoji 行）
+    hugo = false
     # whether to show copyright info
     copyright = true
     # whether to show the author
@@ -280,8 +280,8 @@ enableEmoji = true
     hiddenFromSearch = false
     # whether to enable twemoji
     twemoji = false
-    # whether to enable lightgallery
-    lightgallery = false
+    # whether to enable lightgallery（正文图点击放大，见 assets/js/post-content-lightbox.js）
+    lightgallery = true
     # whether to enable the ruby extended syntax
     ruby = true
     # whether to enable the fraction extended syntax
@@ -434,10 +434,8 @@ enableEmoji = true
         # Or 
         # someCSS = "https://cdn.example.com/some.css"
       [params.page.library.js]
-        # someJavascript = "some.js"
-        # located in "assets/"
-        # Or
-        # someJavascript = "https://cdn.example.com/some.js"
+        # 在 theme.js / LightGallery 初始化之前执行，为 Markdown 图片包一层 .lightgallery
+        postContentLightbox = "js/post-content-lightbox.js"
     # Page SEO config
     [params.page.seo]
       # image URL
@@ -651,7 +649,7 @@ enableEmoji = true
       [languages.en.params.social]
         GitHub = "RedCelery"
         # 改成你常用的联系邮箱
-        Email = "RedCelery@users.noreply.github.com"
+        Email = "m2clarry@gmail.com"
 
   [languages.zh-cn]
     weight = 2
@@ -723,4 +721,4 @@ enableEmoji = true
           disclaimer = ""
       [languages.zh-cn.params.social]
         GitHub = "RedCelery"
-        Email = "RedCelery@users.noreply.github.com"
+        Email = "m2clarry@gmail.com"

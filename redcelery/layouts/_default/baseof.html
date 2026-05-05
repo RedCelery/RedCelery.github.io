@@ -1,7 +1,7 @@
 {{- partial "init.html" . -}}
 
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
+<html lang="{{ .Site.LanguageCode }}" data-dev-edit-lang="{{ .Lang }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,6 +51,18 @@
                 {{- $tocLeftJS = $tocLeftJS | fingerprint . -}}
             {{- end -}}
             <script src="{{ $tocLeftJS.RelPermalink }}"{{ with $tocLeftJS.Data.Integrity }} integrity="{{ . }}"{{ end }}></script>
+        {{- end -}}
+        {{- /* Local dev only: in-page edit helper (not included in production build) */ -}}
+        {{- if hugo.IsServer -}}
+            {{- /* Turndown: HTML → Markdown for “复制 Markdown”（仅本地 server） */ -}}
+            <script src="https://cdn.jsdelivr.net/npm/turndown@7.2.0/dist/turndown.js" crossorigin="anonymous"></script>
+            {{- with resources.Get "js/dev-inline-edit.js" -}}
+                {{- $devEdit := . | minify -}}
+                {{- with $.Site.Params.fingerprint -}}
+                    {{- $devEdit = $devEdit | fingerprint . -}}
+                {{- end -}}
+                <script src="{{ $devEdit.RelPermalink }}"{{ with $devEdit.Data.Integrity }} integrity="{{ . }}"{{ end }}></script>
+            {{- end -}}
         {{- end -}}
     </body>
 </html>
