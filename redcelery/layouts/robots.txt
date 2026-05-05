@@ -61,5 +61,5 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-{{- /* absURL 使用 hugo.toml 的 baseURL，避免多语言下 absLangURL 变成 http:// */ -}}
+{{/* Sitemap uses absURL from hugo.toml baseURL (https). Do not use {{- here: it strips the newline after Disallow above. */}}
 Sitemap: {{ "/sitemap.xml" | absURL }}
