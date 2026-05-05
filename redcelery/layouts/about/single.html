@@ -3,7 +3,7 @@
 {{- define "content" -}}
     {{- $params := .Scratch.Get "params" -}}
     {{- $about := .Params.about | default dict -}}
-    {{- $avatar := $about.avatar | default "/images/header-avatar.png?v=2" -}}
+    {{- $avatar := $about.avatar | default "/images/header-avatar.png?v=3" -}}
     {{- $intro := $about.intro | default "" -}}
     {{- $email := $about.email | default .Site.Params.author.email -}}
     {{- $github := $about.github | default .Site.Params.social.GitHub -}}

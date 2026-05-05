@@ -34,5 +34,15 @@
             {{- end -}}
             {{- partial "paginator.html" . -}}
         {{- end -}}
+
+        {{- if ne $profile.enable false -}}
+            {{- with resources.Get "js/home-matrix-wave.js" -}}
+                {{- $matrixWave := . | minify -}}
+                {{- with $.Site.Params.fingerprint -}}
+                    {{- $matrixWave = $matrixWave | fingerprint . -}}
+                {{- end -}}
+                <script src="{{ $matrixWave.RelPermalink }}"{{ with $matrixWave.Data.Integrity }} integrity="{{ . }}"{{ end }} defer></script>
+            {{- end -}}
+        {{- end -}}
     </div>
 {{- end -}}

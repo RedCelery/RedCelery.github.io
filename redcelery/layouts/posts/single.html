@@ -60,6 +60,12 @@
                     </span>&nbsp;
                 {{- end -}}
             </div>
+            {{- $share := $params.share | default dict -}}
+            {{- if $share.enable -}}
+                <div class="post-meta-line post-meta-line--share">
+                    {{- partial "plugin/share.html" . -}}
+                </div>
+            {{- end -}}
         </div>
 
         {{- /* Featured image */ -}}

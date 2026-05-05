@@ -1,0 +1,33 @@
+{{- $profile := .Site.Params.home.profile -}}
+{{- $heroTitle := $profile.title | default .Site.Title -}}
+<div class="home-profile home-profile--matrix-hero">
+    <div class="home-matrix-hero">
+        {{- /* 列/行略增 → 单点更小；总数仍可控 */ -}}
+        {{- $cols := 84 -}}
+        {{- $rows := 17 -}}
+        <div
+            class="home-matrix-hero__grid"
+            style="--matrix-cols: {{- $cols -}};"
+            aria-hidden="true"
+        >
+            {{- range seq 1 $rows -}}
+                <div class="home-matrix-hero__row">
+                    {{- range seq 1 $cols -}}
+                        <span class="home-matrix-hero__dot" style="--col: {{- sub . 1 -}}"></span>
+                    {{- end -}}
+                </div>
+            {{- end -}}
+        </div>
+        {{- with $heroTitle -}}
+            <div class="home-matrix-hero__title">
+                <h1 class="home-title">{{- . | safeHTML -}}</h1>
+            </div>
+        {{- end -}}
+    </div>
+
+    {{- with $profile.disclaimer -}}
+        <h3 class="home-disclaimer">
+            {{- . | safeHTML -}}
+        </h3>
+    {{- end -}}
+</div>

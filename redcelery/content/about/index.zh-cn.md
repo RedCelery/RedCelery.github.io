@@ -5,7 +5,7 @@ date: 2026-03-29
 draft: false
 type: about
 about:
-  avatar: "/images/header-avatar.png?v=2"
+  avatar: "/images/header-avatar.png?v=3"
   intro: |
     我是一个图形和 AI 结合的爱好者，日常记录一些自己的想法和分享。
   email: "m2clarry@gmail.com"
