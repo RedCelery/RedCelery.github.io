@@ -1,0 +1,24 @@
+{{- define "title" }}
+    {{- .Params.Title | default (T .Section) | default .Section | dict "Some" | T "allSome" }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    <div class="page archive archive-posts">
+        <h2 class="single-title animate__animated animate__pulse animate__faster">
+            {{- .Params.Title | default (T .Section) | default .Section | dict "Some" | T "allSome" -}}
+        </h2>
+
+        {{- if .Pages -}}
+            {{- $sorted := .Pages.ByDate.Reverse -}}
+            {{- with .Site.Params.section.paginate | default .Site.Params.paginate -}}
+                {{- $.Paginate $sorted . -}}
+            {{- else -}}
+                {{- $.Paginate $sorted -}}
+            {{- end -}}
+            {{- range .Paginator.Pages -}}
+                {{- .Render "summary-list" -}}
+            {{- end -}}
+            {{- partial "paginator.html" . -}}
+        {{- end -}}
+    </div>
+{{- end -}}

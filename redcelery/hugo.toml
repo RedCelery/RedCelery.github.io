@@ -204,7 +204,7 @@ enableEmoji = true
     [params.home.posts]
       enable = true
       # special amount of posts in each home posts page
-      paginate = 1
+      paginate = 5
   # Social config in home page
   [params.social]
     GitHub = ""
@@ -638,7 +638,7 @@ enableEmoji = true
         rss = 10
         [languages.en.params.home.posts]
           enable = true
-          paginate = 1
+          paginate = 5
         [languages.en.params.home.profile]
           enable = true
           gravatarEmail = ""
@@ -711,7 +711,7 @@ enableEmoji = true
         rss = 10
         [languages.zh-cn.params.home.posts]
           enable = true
-          paginate = 1
+          paginate = 5
         [languages.zh-cn.params.home.profile]
           enable = true
           gravatarEmail = ""
