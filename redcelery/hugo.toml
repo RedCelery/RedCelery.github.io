@@ -376,7 +376,10 @@ enableEmoji = true
         repo = ""
         clientId = ""
         clientSecret = ""
-      # Valine comment config (https://github.com/xCss/Valine)
+      # Valine 评论 + 阅读数（数据在 LeanCloud，与 GitHub Pages 是否静态托管无关）
+      # GitHub Pages：保证 hugo.toml 顶部的 baseURL 与线上一致（你当前为 https://redcelery.github.io/）
+      # 并在 LeanCloud 控制台「设置 → 安全中心 → Web 安全域名」里添加：redcelery.github.io（勿加 https://）
+      # 若用自定义域名，需把该域名一并加入白名单。
       [params.page.comment.valine]
         enable = true
         appId = "QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI"
@@ -390,7 +393,10 @@ enableEmoji = true
         recordIP = true
         highlight = true
         enableQQ = false
-        serverURLs = "https://leancloud.xxxxx.com"
+        # 不要填示例域名。错误地址会导致阅读数接口失败（页面上只有 “views” 没有数字）。
+        # 国际版 LeanCloud：可省略此项，由 SDK 使用默认 API 域名。
+        # 国内版：在控制台「设置 → 应用 Keys」查看 REST API 服务器地址，再取消下行注释并填入。
+        # serverURLs = "https://你的应用专属域名"
         # emoji data file name, default is "google.yml"
         # ["apple.yml", "google.yml", "facebook.yml", "twitter.yml"]
         # located in "themes/keepit/assets/data/emoji/" directory
@@ -456,7 +462,10 @@ enableEmoji = true
     # cursor duration after typing finishing (measured in milliseconds, "-1" means unlimited)
     duration = -1
 
-  # Site verification code for Google/Bing/Yandex/Pinterest/Baidu
+  # Google Search Console：
+  # - 用「HTML 文件」验证：把 google*.html 放在 static/ 根目录（已放），此处 google 务必留空。
+  # - 用「HTML 标签」验证：才把 meta 的 content 那一长串填到 google = "..."，且不要 .html 文件名。
+  # 验证通过后到「站点地图」提交 https://redcelery.github.io/sitemap.xml
   [params.verification]
     google = ""
     bing = ""
